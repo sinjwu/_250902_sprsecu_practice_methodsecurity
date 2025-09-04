@@ -29,8 +29,7 @@ public class Post {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-    @Builder.Default
-    private boolean isPublic = false;
+    private boolean isPublic;
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Status status = Status.DRAFT;

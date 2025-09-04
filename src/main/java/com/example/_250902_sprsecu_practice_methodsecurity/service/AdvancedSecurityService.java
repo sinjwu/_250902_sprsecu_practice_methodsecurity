@@ -4,7 +4,6 @@ import com.example._250902_sprsecu_practice_methodsecurity.model.User;
 import com.example._250902_sprsecu_practice_methodsecurity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.cache.spi.support.CacheUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,7 @@ public class AdvancedSecurityService {
     private final UserRepository userRepository;
     @PreAuthorize("@customerSecurity.isBusinessHours() or hasRole('ADMIN')")
     public void performSensitiveOperation() {
-        System.out.println("⚠\uFE0F 민감한 작업 실행 - 업무 시간 또는 관리자");
+        log.info("⚠\uFE0F 민감한 작업 실행 - 업무 시간 또는 관리자");
     }
     @PreAuthorize("@customSecurity.isDepartmentMember(T(com.example._250902_sprsecu_practice_methodsecurity.model.Department).HR, authentication")
     public List<User> getEmployeeRecords() {
@@ -31,7 +30,7 @@ public class AdvancedSecurityService {
         log.info("✅ 요청 승인 - 매니저 이상");
     }
     @PreAuthorize("@customSecurity.isActiveUser(authentication) and "
-            + "@customSEcurity.hasMinimumPosts(5, authentication)"
+            + "@customSecurity.hasMinimumPosts(5, authentication)"
     )
     public void accessPremiumFeature() {
         log.info("\uD83D\uDC8E 프리미엄 기능 - 활성 사용자이면서 게시글 5개 이상");

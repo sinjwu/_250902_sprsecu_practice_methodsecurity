@@ -38,14 +38,14 @@ public class PostService {
                 .title(title)
                 .content(content)
                 .author(author)
+                .isPublic(isPublic)
+                .status(isPublic ? Status.PUBLISHED : Status.DRAFT)
                 .build();
-        post.setPublic(isPublic);
-        post.setStatus(isPublic ? Status.PUBLISHED : Status.DRAFT);
         return postRepository.save(post);
     }
     @PreAuthorize("#post.author.username == authentication.name or hasRole('ADMIN')")
     public Post updatePost(Post post) {
-        log.info("✏\uFE0F [PRE_AUTHORIZE] 게시글 작성 - 작성자 또는 관리자");
+        log.info("✏\uFE0F [PRE_AUTHORIZE] 게시글 수정 - 작성자 또는 관리자");
         return postRepository.save(post);
     }
     @PreAuthorize("@postService.isPostOwner(#postId, authentication.name) or hasRole('ADMIN')")
